@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificação de Senhas</title>
+    <link rel="icon" href="https://th.bing.com/th/id/OIP.lstUc6cyDQz__dz4KXRmmgHaHa?w=1080&h=1080&rs=1&pid=ImgDetMain" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #0E1113;
+            position: relative;
+            transition: background-color 0.3s;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #0E1113;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            width: 300px;
+            color: white;
+        }
+
+        .container img {
+            width: 100px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #0E1113;
+            color: #fff;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .error {
+            color: red;
+        }
+
+        /* Classe para animação de sucesso */
+        .success-background {
+            background-color: #28a745 !important;
+        }
+
+        /* Classe para animação de erro */
+        .error-background {
+            background-color: #ff4d4d !important;
+        }
+
+        .audio-control {
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: white;
+            background: none;
+            border: none;
+        }
+
+        #backgroundVideo {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://preview.redd.it/baseado-no-post-de-u-ocelot-prudent-tentei-fazer-o-s%C3%ADmbolo-v0-4b9910vo4okb1.png?width=640&crop=smart&auto=webp&s=36b943834ff800d558878fcd4490e3b63c1d0832" alt="Imagem central">
+    
+    <h1>Insira o código</h1>
+    <input type="text" id="codeInput" placeholder="Digite o código">
+    <button onclick="checkCode()">Verificar</button>
+    <div class="result" id="result"></div>
+
+    <button class="audio-control" onclick="toggleMusic()">⏸️ Pausar Música</button>
+</div>
+
+<audio id="successSound" src="https://www.soundjay.com/buttons/sounds/beep-24.mp3"></audio>
+<audio id="errorSound" src="https://www.soundjay.com/buttons/sounds/beep-03.mp3"></audio>
+
+
+<!-- Vídeo do YouTube configurado para autoplay e loop -->
+<iframe id="backgroundVideo" src="https://www.youtube.com/embed/MEDTO4aLTgg?autoplay=1&loop=1&playlist=MEDTO4aLTgg&enablejsapi=1" allow="autoplay" allowfullscreen></iframe>
+
+<script>
+    const codes = {
+        "RXN0w6F0dWFz": "Você acertou: <strong>Os budas têm um enorme poder.</strong>",
+        "R2FyZ3VsYQ==": "Parabéns! <strong>As gárgulas guardam a entrada secreta.</strong>",
+        "Q3Jpc3RhbA==": "Você encontrou! <strong>O cristal é a chave para o próximo enigma.</strong>",
+        "TGFiaXJpbnRv": "Bom trabalho! <strong>O labirinto esconde algo valioso.</strong>",
+        "QWxxdWltaWE=": "Excelente! <strong>A alquimia revela a verdade oculta.</strong>"
+    };
+
+    function toBase64(str) {
+        return btoa(unescape(encodeURIComponent(str)));
+    }
+
+    function checkCode() {
+        const userInput = document.getElementById("codeInput").value;
+        const resultElement = document.getElementById("result");
+
+        const encodedInput = toBase64(userInput);
+
+        if (codes[encodedInput]) {
+            resultElement.innerHTML = codes[encodedInput];
+            resultElement.classList.remove("error");
+            playSound('success');
+            animateBackground('success-background');
+        } else {
+            resultElement.innerHTML = "Você errou. Tente novamente!";
+            resultElement.classList.add("error");
+            playSound('error');
+            animateBackground('error-background');
+        }
+    }
+
+    function playSound(type) {
+        const successSound = document.getElementById("successSound");
+        const errorSound = document.getElementById("errorSound");
+
+        if (type === 'success') {
+            successSound.play();
+        } else if (type === 'error') {
+            errorSound.play();
+        }
+    }
+
+    function animateBackground(className) {
+        document.body.classList.add(className);
+        setTimeout(() => {
+            document.body.classList.remove(className);
+        }, 300);
+    }
+
+    let isPlaying = true;
+
+    function toggleMusic() {
+        const video = document.getElementById("backgroundVideo");
+        if (isPlaying) {
+            video.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            document.querySelector(".audio-control").textContent = "▶️ Retomar Música";
+        } else {
+            video.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            document.querySelector(".audio-control").textContent = "⏸️ Pausar Música";
+        }
+        isPlaying = !isPlaying;
+    }
+</script>
+
+</body>
+</html>
