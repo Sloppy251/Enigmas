@@ -17,7 +17,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            block-size: 100vh;
             background-color: #0E1113;
             position: relative;
             transition: background-color 0.3s;
@@ -29,21 +29,21 @@
             padding: 40px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             border-radius: 10px;
-            width: 300px;
+            inline-size: 300px;
             color: white;
         }
 
         .container img {
-            width: 100px;
-            height: auto;
-            margin-bottom: 20px;
+            inline-size: 100px;
+            block-size: auto;
+            margin-block-end: 20px;
         }
 
         input[type="text"] {
             padding: 10px;
             font-size: 16px;
-            width: 100%;
-            margin-bottom: 20px;
+            inline-size: 100%;
+            margin-block-end: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
             background-color: #0E1113;
@@ -58,11 +58,11 @@
             color: white;
             border: none;
             border-radius: 5px;
-            width: 100%;
+            inline-size: 100%;
         }
 
         .result {
-            margin-top: 20px;
+            margin-block-start: 20px;
             font-size: 18px;
             color: #f7f7f7;
         }
@@ -71,18 +71,16 @@
             color: red;
         }
 
-        /* Classe para animação de sucesso */
         .success-background {
             background-color: #28a745 !important;
         }
 
-        /* Classe para animação de erro */
         .error-background {
             background-color: #ff4d4d !important;
         }
 
         .audio-control {
-            margin-top: 20px;
+            margin-block-start: 20px;
             cursor: pointer;
             font-size: 14px;
             color: white;
@@ -111,44 +109,39 @@
 <audio id="successSound" src="https://www.soundjay.com/buttons/sounds/beep-24.mp3"></audio>
 <audio id="errorSound" src="https://www.soundjay.com/buttons/sounds/beep-03.mp3"></audio>
 
-<!-- Vídeo do YouTube configurado para autoplay e loop -->
 <iframe id="backgroundVideo" src="https://www.youtube.com/embed/MEDTO4aLTgg?autoplay=1&loop=1&playlist=MEDTO4aLTgg&enablejsapi=1" allow="autoplay" allowfullscreen></iframe>
 
 <script>
     const codes = {
-        "RXN0w6F0dWFz": "Quem diria você acertou,: <strong>Os budas têm um enorme poder.</strong>",
-        "T3JkbyByZWFsaXRhcw==": "Bem vindo agente, <strong>Preparado para <a href='https://www.canva.com/design/DAGUxtnVP1M/S0qj4sOrXeTLQ2In2FA-Qg/view?utm_content=DAGUxtnVP1M&utm_campaign=designshare&utm_medium=link&utm_source=editor' target='_blank'>ajudar?</a></strong>",
-        "RXNwZWNpYWxpc3Rh": "O sabe tudo <strong>O intelecto é a chave.</strong>",
-        "Q29tYmF0ZW50ZQ==": "Tá na hora do pau! <strong>Só usa poderzinho quem não se garante na porrada.</strong>",
-        "T2N1bHRpc3Rh": "Você e o paranormal, <strong>O ocultismo revela a verdade oculta.</strong>",
-        "Um9ueQ==": "Bem vindo a Hong-Kong, <strong>O lendario Ronin.</strong>",
-        "QnJ1Y2U=": "O híbrido, <strong>aquele que anda sobre os 2 mundos.</strong>",
-        "TGlhbQ==": "Bom trabalho agente, <strong>O melhor lider que a ordem já teve?</strong>",
-        "VmVyaXNzaW1v": "O treinador, <strong>Ainda não se sabe seu paradeiro.</strong>",
-        "U2FuZ3Vl": "Olhando dentro de si? <strong>As vezes precisamos olhar para a história.</strong>",
-        "TW9ydGU=": "A sua vez ainda vai chegar, <strong>Aqueles que podem ser confiaveis podem causar sua morte .</strong>",
-        "Q29uaGVjaW1lbnRv": "O conhecimento as vezes é uma benção, <strong>TyBjb25oZWNpbWVudG8gw6kgY29ycm9zaXZv ​.</strong>",
-        "RW5lcmdpYQ==": "Estou entediado, vamos jogar um jogo?.",
-        "Sm9nbw==": "Aqui está. <a href='https://trex-runner.com' target='_blank'>Play</a>"
-    };
-
-    function toBase64(str) {
-        return btoa(unescape(encodeURIComponent(str)));
-    }
+    "Estátuas": "Quem diria você acertou,: <strong>Os budas têm um enorme poder.</strong>",
+    "Ordo realitas": "Bem vindo agente, <strong>Preparado para <a href='https://www.canva.com/design/DAGUxtnVP1M/S0qj4sOrXeTLQ2In2FA-Qg/view?utm_content=DAGUxtnVP1M&utm_campaign=designshare&utm_medium=link&utm_source=editor' target='_blank'>ajudar?</a></strong>",
+    "Especialista": "O sabe tudo <strong>O intelecto é a chave.</strong>",
+    "Combatente ": "Tá na hora do pau! <strong>Só usa poderzinho quem não se garante na porrada.</strong>",
+    "Ocultista": "Você e o paranormal, <strong>O ocultismo revela a verdade oculta.</strong>",
+    "Rony": "Bem vindo a Hong-Kong, <strong>O lendário Ronin.</strong>",
+    "Bruce": "O híbrido, <strong>aquele que anda sobre os 2 mundos.</strong>",
+    "Liam": "Bom trabalho agente, <strong>O melhor líder que a ordem já teve?</strong>",
+    "Verissimo": "O treinador, <strong>Ainda não se sabe seu paradeiro.</strong>",
+    "Sangue": "Olhando dentro de si? <strong>Às vezes precisamos olhar para a história.</strong>",
+    "Morte": "A sua vez ainda vai chegar, <strong>Aqueles que podem ser confiáveis podem causar sua morte.</strong>",
+    "Conhecimento": "O conhecimento às vezes é uma bênção, <strong>TyBjb25oZWNpbWVudG8gw6kgY29ycm9zaXZv.</strong>",
+    "Energia": "Estou entediado, vamos jogar um jogo?.",
+    "Jogo": "Aqui está. <a href='https://trex-runner.com' target='_blank'>Play</a>",
+    "Precisamos de ajuda": "Estamos te esperando."
+    
+};
 
     function checkCode() {
         const userInput = document.getElementById("codeInput").value;
         const resultElement = document.getElementById("result");
 
-        const encodedInput = toBase64(userInput);
-
-        if (codes[encodedInput]) {
-            resultElement.innerHTML = codes[encodedInput];
+        if (codes[userInput]) {
+            resultElement.innerHTML = codes[userInput];
             resultElement.classList.remove("error");
             playSound('success');
             animateBackground('success-background');
         } else {
-            resultElement.innerHTML = "Você errou. Tente novamente!";
+            resultElement.innerHTML = "Você é um fracasso. Tente novamente!";
             resultElement.classList.add("error");
             playSound('error');
             animateBackground('error-background');
