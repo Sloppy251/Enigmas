@@ -88,7 +88,7 @@
             border: none;
         }
 
-        #backgroundVideo {
+        #backgroundVideo, #deathMusic {
             display: none;
         }
     </style>
@@ -109,52 +109,40 @@
 <audio id="successSound" src="https://www.soundjay.com/buttons/sounds/beep-24.mp3"></audio>
 <audio id="errorSound" src="https://www.soundjay.com/buttons/sounds/beep-03.mp3"></audio>
 
+<!-- Background music -->
 <iframe id="backgroundVideo" src="https://www.youtube.com/embed/MEDTO4aLTgg?autoplay=1&loop=1&playlist=MEDTO4aLTgg&enablejsapi=1" allow="autoplay" allowfullscreen></iframe>
+
+<!-- Death code music -->
+<iframe id="deathMusic" src="https://www.youtube.com/embed/kbFBPrRj9p8?enablejsapi=1&start=158" allow="autoplay" allowfullscreen></iframe>
 
 <script>
     const codes = {
-    "Estátuas": "Quem diria você acertou,: <strong>Os budas têm um enorme poder.</strong>",
-    "Ordo realitas": "Bem vindo agente, <strong>Preparado para <a href='https://www.canva.com/design/DAGUxtnVP1M/S0qj4sOrXeTLQ2In2FA-Qg/view?utm_content=DAGUxtnVP1M&utm_campaign=designshare&utm_medium=link&utm_source=editor' target='_blank'>ajudar?</a></strong>",
-    "Especialista": "O sabe tudo <strong>O intelecto é a chave.</strong>",
-    "Combatente": "Tá na hora do pau! <strong>Só usa poderzinho quem não se garante na porrada.</strong>",
-    "Ocultista": "Você e o paranormal, <strong>O ocultismo revela a verdade oculta.</strong>",
-    "Rony": "Bem vindo a Hong-Kong, <strong>O lendário Ronin.</strong>",
-    "Bruce": "O híbrido, <strong>aquele que anda sobre os 2 mundos.</strong>",
-    "Liam": "Bom trabalho agente, <strong>O melhor líder que a ordem já teve?</strong>",
-    "Verissimo": "O treinador, <strong>Ainda não se sabe seu paradeiro.</strong>",
-    "Sangue": "Olhando dentro de si? <strong>Às vezes precisamos olhar para a história.</strong>",
-    "Morte": "A sua vez ainda vai chegar, <strong>Aqueles que podem ser confiáveis podem causar sua morte.</strong>",
-    "Conhecimento": "O conhecimento às vezes é uma bênção, <strong>TyBjb25oZWNpbWVudG8gw6kgY29ycm9zaXZv.</strong>",
-    "Energia": "Estou entediado, vamos jogar um jogo?.",
-    "Jogo": "Aqui está. <a href='https://trex-runner.com' target='_blank'>Play</a>",
-    "Precisamos de ajuda": "Estamos te esperando.",
-    "Segredos": "Segredos sempre têm um preço. <strong>Você está disposto a pagar? Mesmo que lhe cause dor?</strong>",
-    "Estou": "Você é mais corajoso do que pensa. <strong>O seu verdadeiro destino.</strong>",
-    "Dor": "A dor não é apenas física. <strong>Prepare-se para sofrer alem de seus limites.</strong>",
-    "Destino": "O destino o trouxe até aqui. <strong>Está pronto para o que vem a seguir?</strong>",
-    "Sim": "Nunca perca a esperança. <strong>Eles podem resolver os mistérios.</strong>",
-    "Mistérios": "Nem tudo é o que parece. <strong>As vezes o trapaceiro está apenas guardando a verdade.</strong>",
-    "Guardião": "O guardiões está guardando a verdade. <strong>Quer saber a verdade? Y/N.</strong>",
-    "Y": "Ainda não sabemos... <strong>Espero que você descubra.</strong>",
-    "N": "Sabemos que está curioso. <strong>A arrogancia ainda vai te matar.</strong>",
-    "Medo": "É aquilo que traz o paranormal para nossa realidade. <strong>Sabemos que você e seus companheiros também tem, e sabemos quais.</strong>",
-    "Mortos": "Aqueles que se foram ainda deixam saudades. <strong>Bento Chico, Josias, Jenny, Grayson e... Gideão?</strong>",
-    "Gideão": "Quem é ele?. <strong> Um fragmentado...</strong>",
-    "Fragmentos": "Memorias perdidas <strong>Elas fazem diferença.</strong>",
-    "Código": "Já sabe qual é o primeiro código? <strong>O código é.</strong>",
-    "O código é Estátuas": "Agora vai tomar um cafézinho e relaxar <strong>Um mundo de mistérios te espera🤓☝️.</strong>",
-    "Códigos": "Contando com esse... <strong>Agora são dHJpbnRhIGUgdW0=.</strong>"
-};
+        "RPG": "Em produção, mapas, artes, personagens e muito mais.</strong>",
+        "Matheus": "Estou esperando para terminar essa história.</strong>",
+        "Aventuras": "Teremos que esperar o fim de duas histórias <strong> </strong>",
+        "Quais?": "O fim de de duas histórias, uma história de feiticeiros e outra de aventureiros atrás de um tesouro",
+        "Morte": "A ultima coisa que você vai escutar?"
+    };
 
     function checkCode() {
         const userInput = document.getElementById("codeInput").value;
         const resultElement = document.getElementById("result");
+        const deathMusic = document.getElementById("deathMusic");
+        const backgroundVideo = document.getElementById("backgroundVideo");
 
         if (codes[userInput]) {
             resultElement.innerHTML = codes[userInput];
             resultElement.classList.remove("error");
             playSound('success');
             animateBackground('success-background');
+
+            if (userInput === "Morte") {
+                backgroundVideo.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                deathMusic.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            } else {
+                backgroundVideo.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                deathMusic.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            }
         } else {
             resultElement.innerHTML = "Você é um fracasso. Tente novamente!";
             resultElement.classList.add("error");
@@ -198,3 +186,4 @@
 
 </body>
 </html>
+
